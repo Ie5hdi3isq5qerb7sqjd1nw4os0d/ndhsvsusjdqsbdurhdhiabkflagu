@@ -19,13 +19,13 @@ class StringSession {
             var split = string.split(';;;');
             if (split.length = 2) {
 
-                var decrypt = JSON.parse(Buffer.from(split[split.length - 1], 'base64').toString('utf-8'));
+                var decrypt = Buffer.from(split[split.length - 1], 'base64').toString('utf-8');
 
-            }
-
-            var buffer = Buffer.from(JSON.stringify(decrypt));
+                var buffer = Buffer.from(JSON.parse(decrypt)).toString('utf-8');
         
             fs.writeFileSync('./alphaX/auth.json', buffer, 'utf8', (err) => { });
+            
+            }
             
         } else return console.log('Invalid Session!')
 
