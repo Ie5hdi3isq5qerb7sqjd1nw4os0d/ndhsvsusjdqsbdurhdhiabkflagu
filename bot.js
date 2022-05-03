@@ -222,9 +222,9 @@ async function AlphaxBot () {
 
             };
         };
-    }).catch async(error) => {
+    }).catch (async(error) => {
              return console.log("⚠️️ " + error.message)
-             };
+             });
 
     AlphaxSock.ev.on("chats.upsert", async (m) => {
      
@@ -649,9 +649,9 @@ async function AlphaxBot () {
                 }
             }
         )
-    }).catch async(error) => {
+    }).catch (async(error) => {
              return console.log("⚠️️ " + error.message)
-             };
+             });
     // ==================== End Error Message ====================
 }
 
