@@ -1,6 +1,6 @@
 {
   "name": "Alpha-X-WA-Bot",
-  "version": "1.1.0",
+  "version": "2.0",
   "description": "Alpha-X project - a Whatsapp userbot helping to improve your Whatsapp experience.",
   "main": "./WhatsAsenaDuplicated/bot.js",
   "scripts": {
@@ -25,7 +25,7 @@
     "AlphaXWAbot"
   ],
   "author": "Yusuf",
-  "developer": "@HansakaBro / @SL-Alpha-X",
+  "developer": "@HansakaBro / @SL-Alpha-X / @UviyaBro",
   "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/SL-Alpha-X-Team/Alpha-X-WA-Bot/issues"
@@ -35,6 +35,6 @@
     "alpha-wabot-npm": "^0.0.42",
     "letter-count": "3.2.0",
     "mediafire-getlink": "1.0.2",
-    "@adiwajshing/baileys": "^4.0.1"
+    "@adiwajshing/baileys": "^4.1.0"
   }
 }
