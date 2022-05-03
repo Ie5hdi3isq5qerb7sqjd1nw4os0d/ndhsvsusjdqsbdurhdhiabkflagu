@@ -20,10 +20,8 @@ class StringSession {
             if (split.length = 2) {
 
                 var decrypt = Buffer.from(split[split.length - 1], 'base64').toString('utf-8');
-
-                var buffer = Buffer.from(JSON.stringify(decrypt), 'utf-8').toString('utf-8');
         
-            fs.writeFileSync('./alphaX/auth.json', buffer, 'utf8', (err) => { });
+            fs.writeFileSync('./alphaX/auth.json', decrypt, 'utf8', (err) => { });
             
             }
             
