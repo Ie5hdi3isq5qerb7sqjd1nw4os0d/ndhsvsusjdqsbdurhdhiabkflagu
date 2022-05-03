@@ -151,7 +151,7 @@ async function AlphaxBot () {
      await new Promise(r => setTimeout(r, 1000));
 
         // ==================== External Plugins ====================
-
+/*
         console.log(
             chalk.blueBright.italic('📜 Installing External Plugins...')
         );
@@ -171,6 +171,7 @@ async function AlphaxBot () {
               console.log('❌ Some Plugins Have Errors: ' + plugin.dataValues.name)
           }
         });
+*/
         // ==================== End External Plugins ====================
 
         // ====================== Internal Plugins ======================
