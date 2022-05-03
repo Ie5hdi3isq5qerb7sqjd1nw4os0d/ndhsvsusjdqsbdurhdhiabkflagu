@@ -112,7 +112,7 @@ async function AlphaxBot () {
 
     }, 100);
     
-       AlphaxSock.ev.on('connection.update', async (update) => {
+    AlphaxSock.ev.on('connection.update', async (update) => {
 
         console.log( chalk.green.bold('🏃 Ａｌｐｈａ-Ｘ-WA-Bot Running...') );
 
@@ -129,26 +129,7 @@ async function AlphaxBot () {
 
             console.log( chalk.green.bold('✅ Successfully connected to WhatsApp Web') );
 
-        };
-        
-        if (connection == 'close') {
-
-            if (((_b = (_a = lastDisconnect.error) === null || _a === void 0 ? void 0 : _a.output) === null || _b === void 0 ? void 0 : _b.statusCode) !== DisconnectReason.loggedOut) {
-
-                console.log(chalk.Red.bold("🤔 Seems Like you LoggedOut from WhatsApp-Web, Please scan qr again and fill config with new session!"));
-
-            } else {
-
-                console.log(chalk.Red.bold("❌ Couldn't connect to whatsapp!"));
-
-            };
-        };
-
-       });
-
-     AlphaxSock.ev.on('connection.update', async () => {
-     
-     await new Promise(r => setTimeout(r, 1000));
+            await new Promise(r => setTimeout(r, 100));
 
         // ==================== External Plugins ====================
 /*
@@ -228,7 +209,22 @@ async function AlphaxBot () {
             await AlphaxSock.sendMessage(AlphaxSock.user.id, { text: up_ch });
             console.log("</> New Updates are Avalable 🔧")
         }
-    })
+      };
+              if (connection == 'close') {
+
+            if (((_b = (_a = lastDisconnect.error) === null || _a === void 0 ? void 0 : _a.output) === null || _b === void 0 ? void 0 : _b.statusCode) !== DisconnectReason.loggedOut) {
+
+                console.log(chalk.Red.bold("🤔 Seems Like you LoggedOut from WhatsApp-Web, Please scan qr again and fill config with new session!"));
+
+            } else {
+
+                console.log(chalk.Red.bold("❌ Couldn't connect to whatsapp!"));
+
+            };
+        };
+    }).catch async(error) => {
+             return console.log("⚠️️ " + error.message)
+             };
 
     AlphaxSock.ev.on("chats.upsert", async (m) => {
      
@@ -653,14 +649,10 @@ async function AlphaxBot () {
                 }
             }
         )
-    });
+    }).catch async(error) => {
+             return console.log("⚠️️ " + error.message)
+             };
     // ==================== End Error Message ====================
-
-    try {
-        await AlphaxSock.connect();
-    } catch {
-       return;
-    }
 }
 
 AlphaxBot();

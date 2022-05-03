@@ -21,11 +21,11 @@ class StringSession {
 
                 var decrypt = Buffer.from(split[split.length - 1], 'base64').toString('utf-8');
         
-            fs.writeFileSync('./alphaX/auth.json', decrypt, 'utf8', (err) => { });
+            fs.writeFileSync('./alphaX/auth.json', decrypt, 'utf8', (err) => { console.log(err.message) });
             
             }
             
-        } else return console.log('Invalid Session!')
+        } else return console.log('Invalid Session! Contact Owners for help..')
 
     }
 }
