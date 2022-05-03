@@ -8,12 +8,11 @@ const exec = require('child_process').exec;
 const Heroku = require('heroku-client');
 const { PassThrough } = require('stream');
 const heroku = new Heroku({ token: Config.HEROKU.API_KEY })
-const AlphaXnpm = require('alpha-wabot-npm');
 const Language = require('../language');
 const Lang = Language.getString('updater');
 
 AlphaX.addCommand({pattern: 'up$', fromMe: true, desc: Lang.UPDATER_DESC}, (async (message, match) => {
-    await AlphaXnpm.startwhatsasena()
+
     await git.fetch();
     var commits = await git.log([Config.BRANCH + '..origin/' + Config.BRANCH]);
     if (commits.total === 0) {
@@ -53,7 +52,7 @@ if (Config.LANG == 'ML') Action = '*🚀 നിലവിൽ അപ്ഡേറ�
 if (Config.LANG == 'HI') Action = '*🚀 वर्तमान में अपडेट हो रहा है!*'
 if (Config.LANG == 'ID') Action = '*🚀 Saat Ini Memperbarui!*'
 AlphaX.addCommand({pattern: 'up now$', fromMe: true, desc: Lang.UPDATE_NOW_DESC}, (async (message, match) => {
-    await AlphaXnpm.startwhatsasena()
+
     await git.fetch();
     var commits = await git.log([Config.BRANCH + '..origin/' + Config.BRANCH]);
     if (commits.total === 0) {
