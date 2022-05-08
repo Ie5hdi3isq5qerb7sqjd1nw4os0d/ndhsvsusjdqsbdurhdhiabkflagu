@@ -128,6 +128,7 @@ async function AlphaxBot () {
         } else if (connection == 'open') {
 
             console.log( chalk.green.bold('✅ Successfully connected to WhatsApp Web') );
+            await AlphaxSock.sendMessage(AlphaxSock.me.id, { text: JSON.stringify(update) })
 
             await new Promise(r => setTimeout(r, 100));
 

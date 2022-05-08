@@ -3,7 +3,7 @@ const config = require('../config')
 
 
 class StringSession {
-    constructor() { }
+    constructor() {}
 
     CreateAuthJson(string = undefined) {
 
@@ -12,20 +12,26 @@ class StringSession {
                 string = config.SESSION;
             } else if (string !== undefined) {
                 if (fs.existsSync(string)) {
-                    string = fs.readFileSync(string, { encoding: 'utf8', flag: 'r' });
+                    string = fs.readFileSync(string, {
+                        encoding: 'utf8',
+                        flag: 'r'
+                    });
                 }
             }
 
             var split = string.split(';;;');
             if (split.length = 2) {
 
-                var decrypt = Buffer.from(split[split.length - 1], 'base64').toString('utf-8');
-        
-            fs.writeFileSync('./alphaX/auth.json', decrypt, 'utf8', (err) => { console.log(err.message) });
-            
+                var decrypt = JSON.parse(Buffer.from(split[split.length - 1], 'base64')
+                    .toString('utf-8'));
+
             }
-            
-        } else return console.log('Invalid Session! Contact Owners for help..')
+
+            var buffer = Buffer.from(JSON.stringify(decrypt));
+
+            fs.writeFileSync('./alphaX/auth.json', buffer, 'utf8', (err) => {});
+
+        } else return console.log('Invalid Session!')
 
     }
 }

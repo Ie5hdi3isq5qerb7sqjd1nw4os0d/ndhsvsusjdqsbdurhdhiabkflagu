@@ -1,4 +1,4 @@
-const {MessageType, Presence, MessageOptions} = require('@adiwajshing/baileys');
+const { MessageType, Presence, MessageOptions } = require('@adiwajshing/baileys');
 const Base = require('./Base');
 const Message = require('./Message');
 const ReplyMessage = require('./ReplyMessage');
@@ -22,22 +22,28 @@ class Video extends Base {
         this.width = data.quotedMessage.videoMessage.width;
         this.mediaKey = data.message.videoMessage.mediaKey;
         this.data = data;
-        
-        if (data.message.videoMessage.hasOwnProperty('contextInfo') && data.message.contextInfo.quotedMessage) { 
-            this.reply_message = new ReplyMessage(this.client, data.message.videoMessage.contextInfo); }
-        else {
+
+        if (data.message.videoMessage.hasOwnProperty('contextInfo') && data.message.contextInfo.quotedMessage) {
+            this.reply_message = new ReplyMessage(this.client, data.message.videoMessage.contextInfo);
+        } else {
             this.reply_message = false;
         }
-        
+
         return super._patch(data);
     }
 
     async delete() {
-        return await this.client.sendMessage(this.jid, { delete: this.key })
+        return await this.client.sendMessage(this.jid, {
+            delete: this.key
+        })
     }
 
     async reply(text) {
-        var message = await this.client.sendMessage(this.jid, { text: text }, { quoted: this.data })
+        var message = await this.client.sendMessage(this.jid, {
+            text: text
+        }, {
+            quoted: this.data
+        })
         return new Message(this.client, message)
     }
 
@@ -46,7 +52,7 @@ class Video extends Base {
     }
 
     async sendTyping() {
-        return await this.client.sendPresenceUpdate('composing', this.jid) ;
+        return await this.client.sendPresenceUpdate('composing', this.jid);
     }
 
     async sendRead() {

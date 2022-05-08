@@ -1,4 +1,4 @@
-const {MessageType, Presence, MessageOptions} = require('@adiwajshing/baileys');
+const { MessageType, Presence, MessageOptions } = require('@adiwajshing/baileys');
 const Base = require('./Base');
 const Image = require('./Image');
 
@@ -38,16 +38,22 @@ class ReplyMessage extends Base {
         }
 
         this.data = data;
-                
+
         return super._patch(data);
     }
 
     async delete() {
-        return await this.client.sendMessage(this.jid, { delete: this.key })
+        return await this.client.sendMessage(this.jid, {
+            delete: this.key
+        })
     }
 
     async reply(text) {
-        var message = await this.client.sendMessage(this.jid, { text: text }, { quoted: this.data })
+        var message = await this.client.sendMessage(this.jid, {
+            text: text
+        }, {
+            quoted: this.data
+        })
         return new Message(this.client, message)
     }
 
@@ -56,13 +62,13 @@ class ReplyMessage extends Base {
     }
 
     async sendTyping() {
-        return await this.client.sendPresenceUpdate('composing', this.jid) ;
+        return await this.client.sendPresenceUpdate('composing', this.jid);
     }
 
     async download(location = this.id) {
         if (this.image) {
             await this.client.downloadAndSaveMediaMessage(this.data.quotedMessage.imageMessage, location);
-            return this.id + '.' + this.mimetype.split('/')[1];    
+            return this.id + '.' + this.mimetype.split('/')[1];
         } else {
             return false;
         }
