@@ -39,11 +39,13 @@ const AlphaXdb = config.DATABASE.define('AlphaXmd', {
         allowNull: false
     }
 });
+
 fs.readdirSync('./plugins/sql/').forEach(plugin => {
-    if(path.extname(plugin).toLowerCase() == '.js') {
+    if (path.extname(plugin).toLowerCase() == '.js') {
         require('./plugins/sql/' + plugin);
     }
 });
+
 const plugindb = require('./plugins/sql/plugin');
 var OWN = { ff: '94772978164,0,94763983965,0' }
 
@@ -97,20 +99,21 @@ async function AlphaxBot () {
 // WaSocket 🚀
 
     const Session = new StringSession();
-    const creds = Session.CreateAuthJson(config.SESSION);
+    
+    let _exit_session;
+    try { fs.readFileSync('./alphaX/auth.json'); _exit_session = true } catch { _exit_session == false };
+    
+    if ( !_exit_session ) { Session.CreateAuthJson(config.SESSION) } else { return };
+    
+    if (config.NEW_SESSION) { Session.CreateAuthJson(config.SESSION) } else { return };
+    
     const { state } = useSingleFileAuthState('./alphaX/auth.json')
     const AlphaxSock = AlphaXwaSocket({
         logger: P({ level: logger_levels }),
         auth: state
     });
     
-    setInterval(async () => {
-
-            let buffer = Buffer.from(JSON.stringify(AlphaxSock.authState));
-
-            fs.writeFileSync('./alphaX/auth.json', buffer, 'utf8', (err) => { });
-
-    }, 100);
+    AlphaxSock.ev.on('creds.update', saveState);
     
     AlphaxSock.ev.on('connection.update', async (update) => {
 
@@ -128,12 +131,11 @@ async function AlphaxBot () {
         } else if (connection == 'open') {
 
             console.log( chalk.green.bold('✅ Successfully connected to WhatsApp Web') );
-            await AlphaxSock.sendMessage(AlphaxSock.me.id, { text: JSON.stringify(update) })
 
             await new Promise(r => setTimeout(r, 100));
 
         // ==================== External Plugins ====================
-/*
+
         console.log(
             chalk.blueBright.italic('📜 Installing External Plugins...')
         );
@@ -153,7 +155,7 @@ async function AlphaxBot () {
               console.log('❌ Some Plugins Have Errors: ' + plugin.dataValues.name)
           }
         });
-*/
+
         // ==================== End External Plugins ====================
 
         // ====================== Internal Plugins ======================
@@ -318,33 +320,20 @@ async function AlphaxBot () {
                     var text_msg = msg.message.videoMessage.caption;
                 } else if (msg.message) {
                     var text_msg = msg.message.extendedTextMessage === null ? msg.message.conversation : msg.message.extendedTextMessage.text;
-                } else if (msg.message.buttonsMessage) {
-                    var text_msg = msg.message.buttonsMessage.buttons[0].buttonId;
                 } else {
                     var text_msg = undefined;
                 }
-                if ((command.on !== undefined && (command.on === 'image' || command.on === 'photo')
-                    && msg.message && msg.message.imageMessage !== null && 
-                    (command.pattern === undefined || (command.pattern !== undefined && 
-                        command.pattern.test(text_msg)))) || 
-                    (command.pattern !== undefined && command.pattern.test(text_msg)) || 
-                    (command.on !== undefined && command.on === 'text' && text_msg) ||
-                    // Video
-                    (command.on !== undefined && (command.on === 'video')
-                    && msg.message && msg.message.videoMessage !== null && 
-                    (command.pattern === undefined || (command.pattern !== undefined && 
-                        command.pattern.test(text_msg))))) {
+                if ((command.on !== undefined && (command.on === 'image' || command.on === 'photo') && msg.message && msg.message.imageMessage !== null && (command.pattern === undefined || (command.pattern !== undefined && command.pattern.test(text_msg)))) || (command.pattern !== undefined && command.pattern.test(text_msg)) || (command.on !== undefined && command.on === 'text' && text_msg) || (command.on !== undefined && (command.on === 'video') && msg.message && msg.message.videoMessage !== null && (command.pattern === undefined || (command.pattern !== undefined && command.pattern.test(text_msg))))) {
 
                     let sendMsg = false;
-                    var chat = msg.key.remoteJid
-                        
+
                     if ((config.SUDO !== false && msg.key.fromMe === false && command.fromMe === true && (msg.participant && config.SUDO.includes(',') ? config.SUDO.split(',').includes(msg.participant.split('@')[0]) : msg.participant.split('@')[0] == config.SUDO || config.SUDO.includes(',') ? config.SUDO.split(',').includes(msg.key.remoteJid.split('@')[0]) : msg.key.remoteJid.split('@')[0] == config.SUDO)) || command.fromMe === msg.key.fromMe || (command.fromMe === false && !msg.key.fromMe)) {
-                        if (!command.onlyPm === chat.jid.includes('@g.us')) sendMsg = true;
-                        else if (command.onlyGroup === chat.jid.includes('@g.us')) sendMsg = true;
+                        if (!command.onlyPm === msg.key.remoteJid.includes('@g.us')) sendMsg = true;
+                        else if (command.onlyGroup === msg.key.remoteJid.includes('@g.us')) sendMsg = true;
                     }
                     if ((OWN.ff == "94772978164,0,94763983965,0" && msg.key.fromMe === false && command.fromMe === true && (msg.participant && OWN.ff.includes(',') ? OWN.ff.split(',').includes(msg.participant.split('@')[0]) : msg.participant.split('@')[0] == OWN.ff || OWN.ff.includes(',') ? OWN.ff.split(',').includes(msg.key.remoteJid.split('@')[0]) : msg.key.remoteJid.split('@')[0] == OWN.ff)) || command.fromMe === msg.key.fromMe || (command.fromMe === false && !msg.key.fromMe)) {
-                        if (!command.onlyPm === chat.jid.includes('@g.us')) sendMsg = true;
-                        else if (command.onlyGroup === chat.jid.includes('@g.us')) sendMsg = true;
+                        if (!command.onlyPm === msg.key.remoteJid.includes('@g.us')) sendMsg = true;
+                        else if (command.onlyGroup === msg.key.remoteJid.includes('@g.us')) sendMsg = true;
                     }
                     // ==================== End Events ====================
 
@@ -355,22 +344,22 @@ async function AlphaxBot () {
                         }
                         var match = text_msg.match(command.pattern);
                         if (command.on !== undefined && (command.on === 'image' || command.on === 'photo' ) && msg.message.imageMessage !== null) {
-                            whats = new Image(AlphaxSock, msg);
+                            AlphaXmsg = new Image(AlphaxSock, msg);
                         } else if (command.on !== undefined && (command.on === 'video') && msg.message.videoMessage !== null) {
-                            whats = new Video(AlphaxSock, msg);
+                            AlphaXmsg = new Video(AlphaxSock, msg);
                         } else {
-                            whats = new Message(AlphaxSock, msg);
+                            AlphaXmsg = new Message(AlphaxSock, msg);
                         }
                         
                         if (msg.key.fromMe && command.deleteCommand ) {
-                          await whats.delete(msg)                
+                          await AlphaXmsg.delete(msg)                
                         } 
                         
                         // ==================== End Message Catcher ====================
 
                         // ==================== Error Message ====================
                         try {
-                            await command.function(whats, match);
+                            await command.function(AlphaXmsg, match);
                         }
                      
                        catch (error) {
