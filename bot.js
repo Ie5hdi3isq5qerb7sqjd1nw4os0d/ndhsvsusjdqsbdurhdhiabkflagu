@@ -104,9 +104,9 @@ async function AlphaxBot () {
     let _exit_session;
     try { fs.readFileSync('./alphaX/auth.json'); _exit_session = true } catch { _exit_session == false };
     
-    if ( !_exit_session ) { Session.CreateAuthJson(config.SESSION) } else { return };
+    if (!_exit_session) Session.CreateAuthJson(config.SESSION);
     
-    if (config.NEW_SESSION) { Session.CreateAuthJson(config.SESSION) } else { return };
+    if (config.NEW_SESSION) Session.CreateAuthJson(config.SESSION);
 
     const AlphaxSock = AlphaXwaSocket({
         logger: P({ level: logger_levels }),
