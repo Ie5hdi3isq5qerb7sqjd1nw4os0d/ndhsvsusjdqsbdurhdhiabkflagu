@@ -1,4 +1,5 @@
 const { useSingleFileAuthState } = require('@adiwajshing/baileys');
+const { state, saveState } = useSingleFileAuthState('./alphaX/auth.json');
 const AlphaXwaSocket = require('@adiwajshing/baileys').default;
 const P = require('pino');
 const fs = require("fs");
@@ -106,8 +107,7 @@ async function AlphaxBot () {
     if ( !_exit_session ) { Session.CreateAuthJson(config.SESSION) } else { return };
     
     if (config.NEW_SESSION) { Session.CreateAuthJson(config.SESSION) } else { return };
-    
-    const { state } = useSingleFileAuthState('./alphaX/auth.json')
+
     const AlphaxSock = AlphaXwaSocket({
         logger: P({ level: logger_levels }),
         auth: state

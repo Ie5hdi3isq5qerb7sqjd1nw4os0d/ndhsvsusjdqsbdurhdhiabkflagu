@@ -19,17 +19,21 @@ class StringSession {
                 }
             }
 
+            var authState = {}
+
             var split = string.split(';;;');
             if (split.length = 2) {
 
                 var decrypt = JSON.parse(Buffer.from(split[split.length - 1], 'base64')
                     .toString('utf-8'));
 
+                authState.creds = decrypt;
+                authState.keys = {};
             }
 
-            var buffer = Buffer.from(JSON.stringify(decrypt));
+            var buf = Buffer.from(JSON.stringify(authState));
 
-            fs.writeFileSync('./alphaX/auth.json', buffer, 'utf8', (err) => {});
+            fs.writeFileSync('./alphaX/auth.json', buf, 'utf8', (err) => {});
 
         } else return console.log('Invalid Session!')
 
