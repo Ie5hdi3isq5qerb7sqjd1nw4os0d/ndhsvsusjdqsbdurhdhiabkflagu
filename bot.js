@@ -212,8 +212,7 @@ async function AlphaxBot () {
             await AlphaxSock.sendMessage(AlphaxSock.user.id, { text: up_ch });
             console.log("</> New Updates are Avalable 🔧")
         }
-      };
-              if (connection == 'close') {
+      } else if (connection == 'close') {
 
             if (((_b = (_a = lastDisconnect.error) === null || _a === void 0 ? void 0 : _a.output) === null || _b === void 0 ? void 0 : _b.statusCode) !== DisconnectReason.loggedOut) {
 
