@@ -33,7 +33,7 @@ class StringSession {
 
             var buf = Buffer.from(JSON.stringify(authState));
 
- //           fs.writeFileSync('./alphaX/auth.json', buf, 'utf8', (err) => {});
+            fs.writeFileSync('./alphaX/auth.json', buf, 'utf8', (err) => {});
 
         } else return console.log('Invalid Session!')
 

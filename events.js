@@ -14,6 +14,7 @@ function addCommand(info, func) {
         usage: info['usage'] === undefined ? '' : info['usage'],
         dontAddCommandList: info['dontAddCommandList'] === undefined ? false : info['dontAddCommandList'],
         warn: info['warn'] === undefined ? '' : info['warn'],
+
         function: func
     };
 
