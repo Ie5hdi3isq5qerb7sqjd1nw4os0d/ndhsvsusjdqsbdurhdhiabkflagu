@@ -100,13 +100,15 @@ async function AlphaxBot () {
 // WaSocket 🚀
 
     const Session = new StringSession();
-    
+
+/*
     let _exit_session;
     try { fs.readFileSync('./alphaX/auth.json'); _exit_session = true } catch { _exit_session == false };
     
     if (!_exit_session) Session.CreateAuthJson(config.SESSION);
     
     if (config.NEW_SESSION) Session.CreateAuthJson(config.SESSION);
+*/
 
     const AlphaxSock = AlphaXwaSocket({
         logger: P({ level: logger_levels }),
@@ -204,12 +206,6 @@ async function AlphaxBot () {
         if (commits.total === 0) {
             await AlphaxSock.sendMessage(AlphaxSock.user.id, { text: Lang.UPDATE });    
         } else {
-            var degisiklikler = Lang.NEW_UPDATE;
-            commits['all'].map(
-                (commit) => {
-                    degisiklikler += '⌛️ [' + commit.date.substring(0, 10) + ']: ' + commit.message + ' <' + commit.author_name + '>\n';
-                }
-            );
             var up_ch = await AlphaXnpm.update(config.LANG)
             await AlphaxSock.sendMessage(AlphaxSock.user.id, { text: up_ch });
             console.log("</> New Updates are Avalable 🔧")
