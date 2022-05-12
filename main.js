@@ -119,22 +119,22 @@ async function AlphaxBot () {
     
     AlphaxSock.ev.on('creds.update', saveState);
     
-    AlphaxSock.ev.on('connection.update', async (update) => {
+//    AlphaxSock.ev.on('connection.update', async (update) => {
 
         console.log( chalk.green.bold('🏃 Ａｌｐｈａ-Ｘ-WA-Bot Running...') );
 
         console.log( chalk.white.bold('🏁 Version: ' + config.VERSION) );
 
-        let _a, _b;
-        let connection = update.connection, lastDisconnect = update.lastDisconnect;
+//        let _a, _b;
+//        let connection = update.connection, lastDisconnect = update.lastDisconnect;
 
-        if (connection == 'connecting') {
+//        if (connection == 'connecting') {
             
             console.log( chalk.green.bold( '⚙ Connecting to WhatsApp-Beta Web...' ) );
 
-        } else if (connection == 'open') {
+//        } else if (connection == 'open') {
 
-            console.log( chalk.green.bold('✅ Successfully connected to WhatsApp Web') );
+//            console.log( chalk.green.bold('✅ Successfully connected to WhatsApp Web') );
 
             await new Promise(r => setTimeout(r, 100));
 
@@ -210,7 +210,7 @@ async function AlphaxBot () {
             await AlphaxSock.sendMessage(AlphaxSock.user.id, { text: up_ch });
             console.log("</> New Updates are Avalable 🔧")
         }
-      } else if (connection == 'close') {
+/*      } else if (connection == 'close') {
 
             if (((_b = (_a = lastDisconnect.error) === null || _a === void 0 ? void 0 : _a.output) === null || _b === void 0 ? void 0 : _b.statusCode) !== DisconnectReason.loggedOut) {
 
@@ -225,6 +225,7 @@ async function AlphaxBot () {
             };
         };
     });
+*/
 
     AlphaxSock.ev.on("chats.upsert", async (m) => {
      
