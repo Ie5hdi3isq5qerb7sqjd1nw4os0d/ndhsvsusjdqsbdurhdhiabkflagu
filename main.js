@@ -110,6 +110,8 @@ async function AlphaxBot () {
 
     const AlphaxSock = AlphaXwaSocket({
         logger: P({ level: logger_levels }),
+        printQRInTerminal: true,
+        browser: ['Alpha-X-Multi-Device', 'Web', 'v2'],
         auth: state
     });
     
@@ -217,10 +219,12 @@ async function AlphaxBot () {
             if (((_b = (_a = lastDisconnect.error) === null || _a === void 0 ? void 0 : _a.output) === null || _b === void 0 ? void 0 : _b.statusCode) !== DisconnectReason.loggedOut) {
 
                 console.log(chalk.Red.bold("🤔 Seems Like you LoggedOut from WhatsApp-Web, Please scan qr again and fill config with new session!"));
+                AlphaxBot();
 
             } else {
 
                 console.log(chalk.Red.bold("❌ Couldn't connect to whatsapp!"));
+                AlphaxBot();
 
             };
         };
