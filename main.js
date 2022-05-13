@@ -1,7 +1,7 @@
-const { useSingleFileAuthState } = require('@adiwajshing/baileys');
+const { useSingleFileAuthState, makeInMemoryStore} = require('@adiwajshing/baileys');
 const { state, saveState } = useSingleFileAuthState('./alphaX/auth.json');
 const AlphaXwaSocket = require('@adiwajshing/baileys').default;
-const P = require('pino');
+const pino = require('pino');
 const fs = require("fs");
 const path = require("path");
 const events = require("./events");
@@ -104,6 +104,14 @@ async function AlphaxBot() {
 
     const Session = new StringSession();
 
+    const store = makeInMemoryStore({
+        logger: pino()
+            .child({
+            level: 'silent',
+            stream: 'store'
+        })
+    });
+
     let _exit_session;
     try {
         fs.readFileSync('./alphaX/auth.json');
@@ -115,14 +123,18 @@ async function AlphaxBot() {
     if (!_exit_session) Session.CreateAuthJson(config.SESSION);
 
     if (config.NEW_SESSION) Session.CreateAuthJson(config.SESSION);
+    
+    await new Promise(r => setTimeout(r, 500));
 
     const AlphaxSock = AlphaXwaSocket({
-        logger: P({
+        logger: pino({
             level: logger_levels
         }),
         browser: ['Alpha-X-Multi-Device', 'Web', 'v2'],
         auth: state
     });
+    
+    store.bind(AlphaxSock.ev)
 
     AlphaxSock.ev.on('connection.update', async(update) => {
 
