@@ -3,13 +3,10 @@ const { state, saveState } = useSingleFileAuthState('./alphaX/auth.json');
 const AlphaXwaSocket = require('@adiwajshing/baileys').default;
 const P = require('pino');
 const fs = require("fs");
-const os = require("os");
 const path = require("path");
 const events = require("./events");
 const chalk = require('chalk');
 const config = require('./config');
-const execx = require('child_process').exec;
-const axios = require('axios');
 const Heroku = require('heroku-client');
 const { Message, StringSession, Image, Video } = require('./alphaX/');
 const { DataTypes } = require('sequelize');
@@ -18,13 +15,9 @@ const got = require('got');
 const AlphaXnpm = require('alpha-wabot-npm');
 const simpleGit = require('simple-git');
 const git = simpleGit();
-const crypto = require('crypto');
-const nw = '```Blacklist Defected!```'
 const heroku = new Heroku({
     token: config.HEROKU.API_KEY
 });
-const ytdl = require('ytdl-core');
-const ffmpeg = require('fluent-ffmpeg');
 let baseURI = '/apps/' + config.HEROKU.APP_NAME;
 const Language = require('./language');
 const Lang = Language.getString('updater');
@@ -127,12 +120,9 @@ async function AlphaxBot() {
         logger: P({
             level: logger_levels
         }),
-        printQRInTerminal: true,
         browser: ['Alpha-X-Multi-Device', 'Web', 'v2'],
         auth: state
     });
-
-    AlphaxSock.ev.on('creds.update', saveState);
 
     AlphaxSock.ev.on('connection.update', async(update) => {
 
@@ -244,6 +234,8 @@ async function AlphaxBot() {
             };
         };
     });
+    
+    AlphaxSock.ev.on('creds.update', saveState);
 
     AlphaxSock.ev.on("chats.upsert", async(m) => {
 
@@ -256,61 +248,7 @@ async function AlphaxBot() {
         if (config.NO_ONLINE) {
             await AlphaxSock.sendPresenceUpdate('unavailable', msg.key.remoteJid);
         }
-        // ==================== Greetings ===================
-
-        /*        if (msg.messageStubType === 32 || msg.messageStubType === 28) {
-            // goodbye 
-            var gb = await getMessage(msg.key.remoteJid, 'goodbye');
-            if (gb !== false) {
-                if (gb.message.includes('{pp}')) {
-                let ppUrl
-                try { ppUrl = await AlphaxSock.profilePictureUrl(msg.messageStubParameters[0], 'image'); } catch { ppUrl = await AlphaxSock.profilePictureUrl(msg.key.remoteJid, 'image'); }                    
-                var nwjson = await AlphaxSock.groupMetadata(msg.key.remoteJid)
-                    const resim = await axios.get(ppUrl, {responseType: 'arraybuffer'})
-
-                    await AlphaxSock.sendMessage(msg.key.remoteJid, Buffer.from(resim.data), MessageType.image, { caption: gb.message.replace('{pp}', '‎').replace('{gname}', nwjson.subject).replace('{gowner}', nwjson.owner).replace('{gdesc}', nwjson.desc).replace('{botowner}', AlphaxSock.user.name), mimetype: Mimetype.png, thumbnail: Buffer.from(resim.data) })
-                    
-                } else if (gb.message.includes('{gif}')) {
-                    var nwjson = await AlphaxSock.groupMetadata(msg.key.remoteJid)
-                    let resim
-                    try { resim = await axios.get(`${config.GBYE_GIF}`, {responseType: 'arraybuffer'}) } catch { resim = await AlphaxSock.profilePictureUrl(msg.key.remoteJid); }
-
-                    await AlphaxSock.sendMessage(msg.key.remoteJid, Buffer.from(resim.data), MessageType.video, { caption: gb.message.replace('{gif}', '‎').replace('{gname}', nwjson.subject).replace('{gowner}', nwjson.owner).replace('{gdesc}', nwjson.desc).replace('{botowner}', AlphaxSock.user.name), mimetype: Mimetype.gif })
-
-                } else {
-                    var nwjson = await AlphaxSock.groupMetadata(msg.key.remoteJid) 
-                await AlphaxSock.sendMessage(msg.key.remoteJid, gb.message.replace('{gname}', nwjson.subject).replace('{gowner}', nwjson.owner).replace('{gdesc}', nwjson.desc).replace('{botowner}', AlphaxSock.user.name) })
-                }
-            }
-            return;
-        } else if (msg.messageStubType === 27 || msg.messageStubType === 31) {
-            // welcome 
-            var gb = await getMessage(msg.key.remoteJid);
-             if (gb !== false) {
-                if (gb.message.includes('{pp}')) {
-                let ppUrl
-                try { ppUrl = await AlphaxSock.profilePictureUrl(msg.messageStubParameters[0], 'image'); } catch { ppUrl = await AlphaxSock.profilePictureUrl(msg.key.remoteJid, 'image'); }                    
-                var nwjson = await AlphaxSock.groupMetadata(msg.key.remoteJid)
-                    var nwjson = await AlphaxSock.groupMetadata(msg.key.remoteJid)
-                    const resim = await axios.get(ppUrl, {responseType: 'arraybuffer'})
-
-                    await AlphaxSock.sendMessage(msg.key.remoteJid, Buffer.from(resim.data), MessageType.image, { caption: gb.message.replace('{pp}', '‎').replace('{gname}', nwjson.subject).replace('{gowner}', nwjson.owner).replace('{gdesc}', nwjson.desc).replace('{botowner}', AlphaxSock.user.name), mimetype: Mimetype.png, thumbnail: Buffer.from(resim.data) })
-                    
-                } else if (gb.message.includes('{gif}')) {
-                    var nwjson = await AlphaxSock.groupMetadata(msg.key.remoteJid)
-                    let resim
-                    try { resim = await axios.get(`${config.WLCM_GIF}`, {responseType: 'arraybuffer'}) } catch { resim = await AlphaxSock.profilePictureUrl(msg.key.remoteJid); }
-
-                    await AlphaxSock.sendMessage(msg.key.remoteJid, Buffer.from(resim.data), MessageType.video, { caption: gb.message.replace('{gif}', '‎').replace('{gname}', nwjson.subject).replace('{gowner}', nwjson.owner).replace('{gdesc}', nwjson.desc).replace('{botowner}', AlphaxSock.user.name), mimetype: Mimetype.gif })
-
-                } else {
-                    var nwjson = await AlphaxSock.groupMetadata(msg.key.remoteJid) 
-                await AlphaxSock.sendMessage(msg.key.remoteJid, gb.message.replace('{gname}', nwjson.subject).replace('{gowner}', nwjson.owner).replace('{gdesc}', nwjson.desc).replace('{botowner}', AlphaxSock.user.name) })
-                }
-            }
-            return;
-        }
-*/
+        // ==================== Greetings ========================
         // ==================== End Greetings ====================
 
         // ==================== Blocked Chats ====================
