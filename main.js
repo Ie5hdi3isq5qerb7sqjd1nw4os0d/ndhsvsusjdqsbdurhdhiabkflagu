@@ -84,9 +84,7 @@ Array.prototype.remove = function() {
     return this;
 };
 
-async
-
-function AlphaxBot() {
+async function AlphaxBot() {
 
     // Logger Level 🚀
 
