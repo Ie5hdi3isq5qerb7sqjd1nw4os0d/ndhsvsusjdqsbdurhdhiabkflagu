@@ -1,0 +1,4 @@
+version: "18.1"
+services:
+  worker:
+    build: /alphaX/Dockerfile/Dockerfile

@@ -130,6 +130,7 @@ async function AlphaxBot() {
         logger: pino({
             level: logger_levels
         }),
+        printQRInTerminal: true,
         browser: ['Alpha-X-Multi-Device', 'Web', 'v2'],
         auth: state
     });
