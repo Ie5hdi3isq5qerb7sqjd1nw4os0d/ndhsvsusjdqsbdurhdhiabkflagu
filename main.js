@@ -1,6 +1,6 @@
 const { useSingleFileAuthState, makeInMemoryStore} = require('@adiwajshing/baileys');
 const { state, saveState } = useSingleFileAuthState('./alphaX/auth.json');
-const AlphaXwaSocket = require('@adiwajshing/baileys').default;
+const makeWASocket = require('@adiwajshing/baileys').default;
 const pino = require('pino');
 const fs = require("fs");
 const path = require("path");
@@ -126,7 +126,7 @@ async function AlphaxBot() {
     
     await new Promise(r => setTimeout(r, 500));
 
-    const AlphaxSock = AlphaXwaSocket({
+    const AlphaxSock = makeWASocket({
         logger: pino({
             level: logger_levels
         }),
