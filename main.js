@@ -102,8 +102,6 @@ async function AlphaxBot() {
 
     // WaSocket 🚀
 
-    /* const Session = new StringSession(); */
-
     const store = makeInMemoryStore({
         logger: pino()
             .child({
@@ -112,20 +110,6 @@ async function AlphaxBot() {
         })
     });
 
-    /*
-    let _exit_session;
-    try {
-        fs.readFileSync('./alphaX/auth.json');
-        _exit_session = true
-    } catch {
-        _exit_session == false
-    };
-
-    if (!_exit_session) Session.CreateAuthJson(config.SESSION);
-
-    if (config.NEW_SESSION) Session.CreateAuthJson(config.SESSION);
-    */
-    
     await new Promise(r => setTimeout(r, 500));
 
     const AlphaxSock = makeWASocket({
