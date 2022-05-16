@@ -6,7 +6,6 @@ const path = require("path");
 const events = require("./events");
 const chalk = require('chalk');
 const config = require('./config');
-const Heroku = require('heroku-client');
 const { Message, Image, Video } = require('./alphaX/');
 const { DataTypes } = require('sequelize');
 const { GreetingsDB, getMessage } = require("./plugins/sql/greetings");
@@ -14,10 +13,6 @@ const got = require('got');
 const AlphaXnpm = require('alpha-wabot-npm');
 const simpleGit = require('simple-git');
 const git = simpleGit();
-const heroku = new Heroku({
-    token: config.HEROKU.API_KEY
-});
-let baseURI = '/apps/' + config.HEROKU.APP_NAME;
 const Language = require('./language');
 const Lang = Language.getString('updater');
 
