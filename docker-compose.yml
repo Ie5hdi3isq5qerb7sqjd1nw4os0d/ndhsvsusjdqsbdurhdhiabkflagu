@@ -3,8 +3,8 @@ services:
   worker:
     build: .
     environment:
-        DEBUG: warn
-        USER_NAME: Alpha-X
-        HANDLERS: ^[.]
-        LANGUAGE: SI
-        WORK_TYPE: private
+        DEBUG: DEBUG
+        USER_NAME: USER_NAME
+        HANDLERS: HANDLERS
+        LANGUAGE: LANGUAGE
+        WORK_TYPE: WORK_TYPE
