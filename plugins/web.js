@@ -1,12 +1,6 @@
 const AlphaX = require('../events');
-const {MessageType} = require('@adiwajshing/baileys');
-const TinyURL = require('tinyurl');
+const { MessageType } = require('@adiwajshing/baileys');
 const Config = require('../config');
-const AlphaXnpm = require('alpha-wabot-npm')
-
-const Language = require('../language');
-const Lang = Language.getString('web');
-const SLang = Language.getString('webss');
 
 AlphaX.addCommand({pattern: 'ping$', fromMe: false, deleteCommand: false, desc: Lang.PING_DESC}, (async (message, match) => {
 

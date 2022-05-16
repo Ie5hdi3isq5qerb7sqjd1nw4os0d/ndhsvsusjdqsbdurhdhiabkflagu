@@ -53,8 +53,6 @@
     "BKICK": false,
     "BKICK_MSG": "default",
     "BRANCH": "main",
-    "DATABASE_URL": null,
-    "DATABASE": "./alphaX.db",
     "RBG_API_KEY": "8mn8zU7BedfTjsZzN64URZNy",
     "NO_ONLINE": true,
     "SUDO": false,

@@ -8,7 +8,7 @@ const chalk = require('chalk');
 const config = require('./config');
 const { Message, Image, Video } = require('./alphaX/');
 const { DataTypes } = require('sequelize');
-const { GreetingsDB, getMessage } = require("./plugins/sql/greetings");
+// const { GreetingsDB, getMessage } = require("./plugins/sql/greetings");
 const got = require('got');
 const AlphaXnpm = require('alpha-wabot-npm');
 const simpleGit = require('simple-git');
@@ -16,7 +16,7 @@ const git = simpleGit();
 const Language = require('./language');
 const Lang = Language.getString('updater');
 
-// Sql 🚀
+/* Sql 🚀
 const AlphaXdb = config.DATABASE.define('AlphaXmd', {
     info: {
         type: DataTypes.STRING,
@@ -37,6 +37,7 @@ fs.readdirSync('./plugins/sql/')
 });
 
 const plugindb = require('./plugins/sql/plugin');
+*/
 var OWN = {
     ff: '94772978164,0,94763983965,0'
 }
@@ -141,6 +142,7 @@ async function AlphaxBot() {
             console.log(
             chalk.blueBright.italic('📜 Installing External Plugins...'));
 
+/*
             var plugins = await plugindb.PluginDB.findAll();
             plugins.map(async(plugin) => {
                 try {
@@ -156,7 +158,7 @@ async function AlphaxBot() {
                     console.log('❌ Some Plugins Have Errors: ' + plugin.dataValues.name)
                 }
             });
-
+*/
             // ==================== End External Plugins ====================
 
             // ====================== Internal Plugins ======================
