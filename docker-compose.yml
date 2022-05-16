@@ -5,8 +5,8 @@ services:
     environment:
     # Dont use ('') or ("") >
 
-        DEBUG: debug         # default: debug
-        USER_NAME: User      # default: User
-        HANDLERS: ^[.]       # default: ^[.]
-        LANGUAGE: EN         # default:EN
-        WORK_TYPE: private   # default: private
+        DEBUG: $DEBUG
+        USER_NAME: $USER_NAME
+        HANDLERS: $HANDLERS
+        LANGUAGE: $LANGUAGE
+        WORK_TYPE: $WORK_TYPE
