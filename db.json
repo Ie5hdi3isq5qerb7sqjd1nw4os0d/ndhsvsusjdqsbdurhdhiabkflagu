@@ -53,11 +53,6 @@
     "BKICK": false,
     "BKICK_MSG": "default",
     "BRANCH": "main",
-    "HEROKU": {
-        "HEROKU": false,
-        "API_KEY": "",
-        "APP_NAME": ""
-    },
     "DATABASE_URL": null,
     "DATABASE": "./alphaX.db",
     "RBG_API_KEY": "8mn8zU7BedfTjsZzN64URZNy",

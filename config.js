@@ -14,10 +14,6 @@ DEBUG = process.env.DEBUG === undefined ? false : convertToBool(process.env.DEBU
 
 if ( fs.existsSync('config.env') ){
 
-    db.push('/SESSION', process.env._ALPHA_SESSION)
-    db.push('/HEROKU/HEROKU', convertToBool(process.env.HEROKU))
-    db.push('/HEROKU/API_KEY', process.process.env.HEROKU_API_KEY)
-    db.push('/HEROKU/APP_NAME', process.env.HEROKU_APP_NAME)
     db.push('/WORKTYPE', process.env.WORK_TYPE)
     db.push('/LANG', process.env.LANGUAGE.toUpperCase())
     db.push('/HANDLERS', process.env.HANDLERS)
@@ -83,7 +79,6 @@ module.exports = {
     XAPI: db.getData('/XAPI'),
     BKICK: db.getData('/BKICK'),
     BKICK_MSG: db.getData('/BKICK_MSG'),
-    HEROKU: db.getData('HEROKU'),
     DATABASE_URL: DATABASE_URL,
     DATABASE: DATABASE_URL === './alphaX.db' ? new Sequelize({ dialect: "sqlite", storage: DATABASE_URL, logging: DEBUG }) : new Sequelize(DATABASE_URL, { dialectOptions: { ssl: { require: true, rejectUnauthorized: false } }, logging: DEBUG }),
     RBG_API_KEY: db.getData('/RBG_API_KEY'),

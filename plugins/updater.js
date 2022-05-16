@@ -2,7 +2,6 @@ const simpleGit = require('simple-git');
 const axios = require('axios');
 const git = simpleGit();
 const AlphaX = require('../events');
-const {MessageType, Mimetype} = require('@adiwajshing/baileys');
 const Config = require('../config');
 const exec = require('child_process').exec;
 const Heroku = require('heroku-client');
@@ -16,30 +15,52 @@ AlphaX.addCommand({pattern: 'up$', fromMe: true, desc: Lang.UPDATER_DESC}, (asyn
     await git.fetch();
     var commits = await git.log([Config.BRANCH + '..origin/' + Config.BRANCH]);
     if (commits.total === 0) {
-         await message.client.sendMessage(
+
+        await message.client.sendMessage(
             message.jid,
-            { text: Lang.UPDATE }
+            { text: Lang.UPDATE },
+            { quoted: message.data }
         );
+
     } else {
+
         var Updates = Lang.NEW_UPDATE;
         commits['all'].map(
-            (commit) => {
-                Updates += Config.C_EMOJI + ' ෴  ' + commit.message + '\n';
+        (commit) => {
+            Updates += Config.C_EMOJI + ' ➲  ' + commit.message + '\n';
+        });
+
+        var result = Config.HANDLERS;
+        var hdlr = result.split('^[')[1].split(']')[0];
+        var HANDLER = hdlr[hdlr.length = 0];
+
+        var _WebPage = await axios.get('https://SL-Alpha-X.github.io');
+
+        const templateButtons = [{
+            index: 1,
+            quickReplyButton: {
+                displayText: '• ᴜᴘᴅᴀᴛᴇ ʙᴏᴛ ⬆️',
+                id: HANDLER + 'up now'
             }
-        );
-        
-        await axios.get('https://SL-Alpha-X.github.io').then (async (webpage) => {
-        let thumb = await axios.get(webpage.data.up_url, {responseType: 'arraybuffer'});
-        
-         /* await message.client.sendMessage(
-            message.jid,
-            Buffer.from(thumb.data),
-            MessageType.image,
-            { mimetype: Mimetype.png, caption: Updates, thumbnail: Buffer.from(thumb.data), quoted: message.data }
-          ); */
-      });
+        }];
+
+        const templateMesaage = {
+            text: "",
+            footer: Updates,
+            templateButtons: templateButtons,
+            image: {
+                url: _WebPage.data.up_url
+            }
+        };
+
+        await message.client.sendMessage(message.jid, templateMesaage, {
+            quoted: message.data
+        });
+
     }
+
 }));
+
 var Action = ''
 if (Config.LANG == 'TR') Action = '*🚀 Halihazırda Güncelleniyor!*'
 if (Config.LANG == 'SI') Action = '*🚀 දැනට යාවත්කාලීන වෙමින් පවතී!*'
@@ -51,28 +72,41 @@ if (Config.LANG == 'PT') Action = '*🚀 está sendo atualizado no momento!*'
 if (Config.LANG == 'ML') Action = '*🚀 നിലവിൽ അപ്ഡേറ്റ് ചെയ്യുന്നു!*'
 if (Config.LANG == 'HI') Action = '*🚀 वर्तमान में अपडेट हो रहा है!*'
 if (Config.LANG == 'ID') Action = '*🚀 Saat Ini Memperbarui!*'
+
 AlphaX.addCommand({pattern: 'up now$', fromMe: true, desc: Lang.UPDATE_NOW_DESC}, (async (message, match) => {
 
     await git.fetch();
     var commits = await git.log([Config.BRANCH + '..origin/' + Config.BRANCH]);
     if (commits.total === 0) {
+    
         return await message.client.sendMessage(
-            message.jid,
-            { text: Lang.UPDATE }
-        );    
+            message.jid, 
+            { text: Lang.UPDATE }, 
+            { quoted: message.data }
+        );
+        
     } else {
         var on_progress = false
-        if (on_progress) return await message.client.sendMessage(message.jid,Action,MessageType.text)
-        var guncelleme = await message.reply(Lang.UPDATING);
+        if (on_progress) return await message.client.sendMessage(message.jid, { text: Action }, { quoted: message.data });
+
         if (Config.HEROKU.HEROKU) {
             try {
                 var app = await heroku.get('/apps/' + Config.HEROKU.APP_NAME)
             } catch {
+            
                 await message.client.sendMessage(
-                    message.jid, { text: Lang.INVALID_HEROKUb } );
+                    message.jid,
+                    { text: Lang.INVALID_HEROKU },
+                    { quoted: message.data }
+                );
+                
                 await new Promise(r => setTimeout(r, 1000));
+                
                 return await message.client.sendMessage(
-                    message.jid, { text: Lang.IN_AF } );
+                    message.jid,
+                    { text: Lang.IN_AF },
+                    { quoted: message.data }
+               );
             }
 
             git.fetch('upstream', Config.BRANCH);
@@ -87,22 +121,36 @@ AlphaX.addCommand({pattern: 'up now$', fromMe: true, desc: Lang.UPDATE_NOW_DESC}
             } catch { console.log('heroku remote ekli'); }
             await git.push('heroku', Config.BRANCH);
 
-            /*
             await message.client.sendMessage(
-                message.jid,Lang.UPDATED, MessageType.text);
+                message.jid,
+                { text: Lang.UPDATED },
+                { quoted: message.data }
+            );
 
-            await message.sendMessage(Lang.AFTER_UPDATE);
-            */
+            await message.sendMessage(
+                message.jid,
+                { text: Lang.AFTER_UPDATE },
+                { quoted: message.data }
+            );
             
         } else {
             git.pull((async (err, update) => {
                 if(update && update.summary.changes) {
+                
                     await message.client.sendMessage(
-                        message.jid,Lang.UPDATED_LOCAL, MessageType.text);
+                        message.jid,
+                        { text: Lang.UPDATED_LOCAL },
+                        { quoted: message.data }
+                    );
+                        
                     exec('npm install').stderr.pipe(process.stderr);
                 } else if (err) {
+                
                     await message.client.sendMessage(
-                        message.jid,'*❌ Update fail*\n*error:* ```' + err + '```', MessageType.text);
+                        message.jid,
+                        { text: '*❌ Update fail*\n*error:* ```' + err + '```' },
+                        { quoted: message.data }
+                    );
                 }
             }));
         }
