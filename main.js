@@ -1,6 +1,5 @@
-const { useSingleFileAuthState, makeInMemoryStore} = require('@adiwajshing/baileys');
+const { default: makeWASocket, useSingleFileAuthState, makeInMemoryStore} = require('@adiwajshing/baileys');
 const { state, saveState } = useSingleFileAuthState('./alphaX/auth.json');
-const makeWASocket = require('@adiwajshing/baileys');
 const pino = require('pino');
 const fs = require("fs");
 const path = require("path");
