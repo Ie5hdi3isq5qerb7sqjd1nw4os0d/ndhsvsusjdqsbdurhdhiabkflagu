@@ -1,0 +1,10 @@
+version: "18.1"
+services:
+  worker:
+    build: .
+    environment:
+        DEBUG: warn
+        USER_NAME: Alpha-X
+        HANDLERS: ^[.]
+        LANGUAGE: SI
+        WORK_TYPE: private
