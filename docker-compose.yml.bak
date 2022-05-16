@@ -2,7 +2,7 @@ version: "18.1"
 services:
   worker:
     build: .
-    environment:
+      environment:
         DEBUG: DEBUG
         USER_NAME: USER_NAME
         HANDLERS: HANDLERS
