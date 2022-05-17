@@ -112,7 +112,7 @@ async function AlphaxBot() {
         auth: state
     });
     
-    console.log(JSON.stringify(AlphaxSock.authState.cteds));
+    console.log(AlphaxSock.authState);
 
 /*          =================== External Plugins ====================
 
