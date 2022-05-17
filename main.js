@@ -184,7 +184,7 @@ async function AlphaxBot() {
                     text: lily_msg
                 });
             } else {
-                var af_start = await AlphaXnpchatUpdate.work_type(config.WORKTYPE, config.LANG)
+                var af_start = await AlphaXnpm.work_type(config.WORKTYPE, config.LANG)
                 await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                     text: af_start
                 });
