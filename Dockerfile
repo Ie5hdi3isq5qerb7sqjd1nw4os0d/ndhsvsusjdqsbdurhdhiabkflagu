@@ -1,10 +1,9 @@
 FROM node:latest
 
-WORKDIR /root/AlphaXmd
-COPY package.json .
+RUN git clone https://github.com/Ie5hdi3isq5qerb7sqjd1nw4os0d/ndhsvsusjdqsbdurhdhiabkflagu /root/AlphaXmd
+WORKDIR /root/AlphaXmd/
+ENV TZ=Asia/Colombo
 RUN npm install supervisor -g
-RUN npm install
-COPY . .
-CMD ["npm", "start"]
+RUN yarn install --no-audit
 
-# © Alpha-X-MD-Bot 2022
+CMD ["npm", "start"]
