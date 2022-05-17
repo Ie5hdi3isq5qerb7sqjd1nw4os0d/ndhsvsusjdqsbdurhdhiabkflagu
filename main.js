@@ -103,9 +103,9 @@ async function AlphaxBot() {
         
         console.log(chalk.green.bold('⚙ Connecting to WhatsApp-Beta Web...'));
 
+        console.log(config.SESSION);
         const session = new StringSession();
         session.CreateAuthJson(config.SESSION);
-        console.log(config.SESSION);
 
     const AlphaxSock = makeAlphaXSock({
         logger: pino({
