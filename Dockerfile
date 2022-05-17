@@ -7,3 +7,5 @@ RUN npm install supervisor -g
 RUN yarn install --no-audit
 
 CMD ["npm", "start"]
+
+# © Alpha-X-WA-Bot 2k22
