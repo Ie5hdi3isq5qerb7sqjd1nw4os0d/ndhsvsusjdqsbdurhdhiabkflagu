@@ -15,6 +15,7 @@ DEBUG = process.env.DEBUG === undefined ? false : convertToBool(process.env.DEBU
 
 if (fs.existsSync('config.env')) {
 
+    db.push('/LOG', process.env.LOG_NUMBER)
     db.push('/SESSION', process.env._ALPHA_SESSION)
     db.push('/WORKTYPE', process.env.WORK_TYPE)
     db.push('/LANG', process.env.LANGUAGE.toUpperCase())
@@ -25,9 +26,10 @@ if (fs.existsSync('config.env')) {
 }
 
 module.exports = {
-    VERSION: 'V.1 Global Stable',
-    BRANCH: 'main',
+    VERSION: 'V.2 - Multi-device Beta',
+    BRANCH: 'multi-device',
     GROUP: 'https://chat.whatsapp.com/ItIRSBUMN9t2lQzCpfAKWt',
+    LOG: db.getData('/LOG'),
     PROXY: db.getData('/PROXY'),
     SESSION: db.getData('/SESSION'),
     ANTILINK: db.getData('/ANTILINK'),
