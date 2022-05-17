@@ -112,8 +112,8 @@ async function AlphaxBot() {
         auth: state
     });
     
-    console.log(AlphaxSock.user) 
-    return;
+    console.log(AlphaxSock.authState.me) 
+    return
 
 /*          =================== External Plugins ====================
 
