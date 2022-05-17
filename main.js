@@ -1,5 +1,5 @@
 const { default: makeAlphaXSock, useSingleFileAuthState, DisconnectReason, fetchLatestBaileysVersion, generateForwardMessageContent, prepareWAMessageMedia, generateWAMessageFromContent, generateMessageID, downloadContentFromMessage, makeInMemoryStore, jidDecode, proto } = require("@adiwajshing/baileys");
-const { state, saveState } = useSingleFileAuthState('./alphaX/authInfo/json/lib/data/files/AlphaXauth.json');
+const { state, saveState } = useSingleFileAuthState('./alphaX/AlphaXauth.json');
 const pino = require('pino');
 const fs = require("fs");
 const path = require("path");
@@ -96,14 +96,15 @@ async function AlphaxBot() {
     }
 
     // WaSocket 🚀
-    
-    const session = new StringSession(config.SESSION);
-    
+
         console.log(chalk.green.bold('🏃 Ａｌｐｈａ-Ｘ-WA-Bot Running...'));
 
         console.log(chalk.white.bold('🏁 Version: ' + config.VERSION));
         
         console.log(chalk.green.bold('⚙ Connecting to WhatsApp-Beta Web...'));
+
+        const session = new StringSession();
+        session.CreateAuthJson(config.SESSION);
 
     const AlphaxSock = makeAlphaXSock({
         logger: pino({

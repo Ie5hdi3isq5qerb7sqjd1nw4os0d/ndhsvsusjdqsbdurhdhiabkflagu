@@ -1,8 +1,7 @@
-const AlphaX = require('../events');
-const { MessageType } = require('@adiwajshing/baileys');
+const module = require('../events');
 const Config = require('../config');
 
-AlphaX.addCommand({pattern: 'ping$', fromMe: false, deleteCommand: false, desc: Lang.PING_DESC}, (async (message, match) => {
+module.alphaXCMD({pattern: 'ping$', fromMe: false, deleteCommand: false, desc: "ping pong 📨"}, (async (message, match) => {
 
   var start = new Date().getTime();
   await message.sendMessage(message.jid, { text: Config.C_EMOJI + ' *ʀᴜɴɴɪɴɢ...*'} );

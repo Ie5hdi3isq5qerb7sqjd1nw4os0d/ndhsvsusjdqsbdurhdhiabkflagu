@@ -18,7 +18,7 @@ class StringSession {
                 }
             }
 
-            if ( fs.existsSync('/root/AlphaXmd/alphaX/authInfo/json/lib/data/files/AlphaXauth.json') ) return;
+            if ( fs.existsSync('./alphaX/AlphaXauth.json') ) return console.log('📶️ Logging to Whatsapp...');
 
             var authState = {}
 
@@ -33,8 +33,10 @@ class StringSession {
             }
 
             var buf = Buffer.from(JSON.stringify(authState));
+            
+            console.log('⤵️ Creating auth file...')
 
-            fs.writeFileSync('./alphaX/authInfo/json/lib/data/files/AlphaXauth.json', buf, 'utf8', (err) => {});
+            fs.writeFileSync('./alphaX/AlphaXauth.json', buf, 'utf8', (err) => {});
 
         } else throw new Error('⚠️️ Invalid Session Provided! please fill with correct informations.')
 

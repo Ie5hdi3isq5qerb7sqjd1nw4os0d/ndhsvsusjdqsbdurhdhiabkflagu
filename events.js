@@ -1,7 +1,7 @@
 var config = require('./config');
 var Commands = [];
 
-function addCommand(info, func) {
+function alphaXCMD(info, func) {
     var types = ['photo', 'image', 'text', 'message'];
 
     var infos = {
@@ -12,7 +12,7 @@ function addCommand(info, func) {
         deleteCommand: info['deleteCommand'] === undefined ? true : info['deleteCommand'],
         desc: info['desc'] === undefined ? '' : info['desc'],
         usage: info['usage'] === undefined ? '' : info['usage'],
-        dontAddCommandList: info['dontAddCommandList'] === undefined ? false : info['dontAddCommandList'],
+        dontalphaXCMDList: info['dontalphaXCMDList'] === undefined ? false : info['dontalphaXCMDList'],
         warn: info['warn'] === undefined ? '' : info['warn'],
 
         function: func
@@ -36,6 +36,6 @@ function addCommand(info, func) {
 }
 
 module.exports = {
-    addCommand: addCommand,
+    alphaXCMD: alphaXCMD,
     commands: Commands
 }
