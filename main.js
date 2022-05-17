@@ -1,5 +1,5 @@
-const { default: makeWASocket, useSingleFileAuthState, makeInMemoryStore} = require('@adiwajshing/baileys');
-const { state, saveState } = useSingleFileAuthState('./alphaX/auth.json');
+const { default: makeAlphaXSock, useSingleFileAuthState, DisconnectReason, fetchLatestBaileysVersion, generateForwardMessageContent, prepareWAMessageMedia, generateWAMessageFromContent, generateMessageID, downloadContentFromMessage, makeInMemoryStore, jidDecode, proto } = require("@adiwajshing/baileys");
+const { state, saveState } = useSingleFileAuthState('./alphaX/authInfo/json/lib/data/files/AlphaXauth.json');
 const pino = require('pino');
 const fs = require("fs");
 const path = require("path");
@@ -100,14 +100,14 @@ async function AlphaxBot() {
     const store = makeInMemoryStore({
         logger: pino()
             .child({
-            level: 'silent',
+            level: logger_levels,
             stream: 'store'
         })
     });
 
     await new Promise(r => setTimeout(r, 500));
 
-    const AlphaxSock = makeWASocket({
+    const AlphaxSock = makeAlphaXSock({
         logger: pino({
             level: logger_levels
         }),
@@ -118,31 +118,17 @@ async function AlphaxBot() {
     
     store.bind(AlphaxSock.ev)
 
-    AlphaxSock.ev.on('connection.update', async(update) => {
-
         console.log(chalk.green.bold('🏃 Ａｌｐｈａ-Ｘ-WA-Bot Running...'));
 
         console.log(chalk.white.bold('🏁 Version: ' + config.VERSION));
 
-        let _a, _b;
-        let connection = update.connection, lastDisconnect = update.lastDisconnect;
-
-        if (connection == 'connecting') {
-
             console.log(chalk.green.bold('⚙ Connecting to WhatsApp-Beta Web...'));
 
-        } else if (connection == 'open') {
-
-            console.log(chalk.green.bold('✅ Successfully connected to WhatsApp Web'));
-
-            await new Promise(r => setTimeout(r, 100));
-
-            // ==================== External Plugins ====================
+/*          =================== External Plugins ====================
 
             console.log(
             chalk.blueBright.italic('📜 Installing External Plugins...'));
 
-/*
             var plugins = await plugindb.PluginDB.findAll();
             plugins.map(async(plugin) => {
                 try {
@@ -193,12 +179,12 @@ async function AlphaxBot() {
             console.log(chalk.bgGreen('🔥 Ａｌｐｈａ-Ｘ-WA-Bot ⚚ ' + wtype));
 
             if (config.AI_LILY == 'true') {
-                var lily_msg = await AlphaXnpm.lily_if(config.LANG)
+                var lily_msg = await AlphaXnpchatUpdate.lily_if(config.LANG)
                 await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                     text: lily_msg
                 });
             } else {
-                var af_start = await AlphaXnpm.work_type(config.WORKTYPE, config.LANG)
+                var af_start = await AlphaXnpchatUpdate.work_type(config.WORKTYPE, config.LANG)
                 await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                     text: af_start
                 });
@@ -210,33 +196,20 @@ async function AlphaxBot() {
                     text: Lang.UPDATE
                 });
             } else {
-                var up_ch = await AlphaXnpm.update(config.LANG)
+                var up_ch = await AlphaXnpchatUpdate.update(config.LANG)
                 await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                     text: up_ch
                 });
                 console.log("</> New Updates are Avalable 🔧")
             }
-        } else if (connection == 'close') {
-
-            if (((_b = (_a = lastDisconnect.error) === null || _a === void 0 ? void 0 : _a.output) === null || _b === void 0 ? void 0 : _b.statusCode) !== DisconnectReason.loggedOut) {
-
-                console.log(chalk.Red.bold("🤔 Seems Like you LoggedOut from WhatsApp-Web, Please scan qr again and fill config with new session!"));
-
-            } else {
-
-                console.log(chalk.Red.bold("❌ Couldn't connect to whatsapp!"));
-
-            };
-        };
-    });
     
     AlphaxSock.ev.on('creds.update', saveState);
 
-    AlphaxSock.ev.on("chats.upsert", async(m) => {
+    AlphaxSock.ev.on("messages.upsert", async(chatUpdate) => {
 
-        if (!m.hasNewMessage) return;
-        if (!m.messages && !m.count) return;
-        let msg = m.messages.all()[0];
+        if (!chatUpdate.messages && !chatUpdate.count) return;
+
+        let msg = chatUpdate.messages.all()[0];
 
         if (msg.key && msg.key.remoteJid == 'status@broadcast') return; // WhatsApp Status
 

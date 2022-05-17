@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { JsonDB } = require('node-json-db');
 const { Config } = require('node-json-db/dist/lib/JsonDBConfig')
-const db = new JsonDB(new Config('db', true, false, '/'))
+const db = new JsonDB(new Config('./database/configDB', true, false, '/'))
 if (fs.existsSync('config.env')) require('dotenv')
     .config({
     path: './config.env'
