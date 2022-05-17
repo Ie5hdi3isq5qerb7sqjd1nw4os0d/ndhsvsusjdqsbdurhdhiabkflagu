@@ -96,23 +96,12 @@ async function AlphaxBot() {
     }
 
     // WaSocket 🚀
-
-    const store = makeInMemoryStore({
-        logger: pino()
-            .child({
-            level: logger_levels,
-            stream: 'store'
-        })
-    });
-
-    await new Promise(r => setTimeout(r, 500));
     
         console.log(chalk.green.bold('🏃 Ａｌｐｈａ-Ｘ-WA-Bot Running...'));
 
         console.log(chalk.white.bold('🏁 Version: ' + config.VERSION));
         
         console.log(chalk.green.bold('⚙ Connecting to WhatsApp-Beta Web...'));
-
 
     const AlphaxSock = makeAlphaXSock({
         logger: pino({
@@ -122,8 +111,6 @@ async function AlphaxBot() {
         browser: ['Alpha-X-Multi-Device', 'Web', 'v2'],
         auth: state
     });
-    
-    store.bind(AlphaxSock.ev)
 
 /*          =================== External Plugins ====================
 
