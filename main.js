@@ -97,7 +97,7 @@ async function AlphaxBot() {
 
     // WaSocket 🚀
     
-    const session = new StringSession();
+    const session = new StringSession(config.SESSION);
     
         console.log(chalk.green.bold('🏃 Ａｌｐｈａ-Ｘ-WA-Bot Running...'));
 
@@ -109,9 +109,10 @@ async function AlphaxBot() {
         logger: pino({
             level: logger_levels
         }),
-        browser: ['Alpha-X-Multi-Device', 'Web', 'v2'],
         auth: state
     });
+    
+    console.log(AlphaxSock.authState);
 
 /*          =================== External Plugins ====================
 
@@ -169,24 +170,24 @@ async function AlphaxBot() {
 
             if (config.AI_LILY == 'true') {
                 var lily_msg = await AlphaXnpchatUpdate.lily_if(config.LANG)
-                await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                     text: lily_msg
                 });
             } else {
                 var af_start = await AlphaXnpm.work_type(config.WORKTYPE, config.LANG)
-                await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                     text: af_start
                 });
             }
             await git.fetch();
             var commits = await git.log([config.BRANCH + '..origin/' + config.BRANCH]);
             if (commits.total === 0) {
-                await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                     text: Lang.UPDATE
                 });
             } else {
                 var up_ch = await AlphaXnpchatUpdate.update(config.LANG)
-                await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                     text: up_ch
                 });
                 console.log("</> New Updates are Avalable 🔧")
@@ -282,128 +283,128 @@ async function AlphaxBot() {
                     } catch (error) {
                         if (config.NOLOG == 'true') return;
                         if (config.LANG == 'SI') {
-                            await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                            await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                 text: '*🔭 දෝෂ වාර්තාව [ Ａｌｐｈａ-Ｘ ] 📨*\n' + '\n*⚙ Ａｌｐｈａ-Ｘ හි දෝෂයක් සිදු වී ඇත!*' + '\n_♦ මෙම දෝෂ ලඝු සටහනට ඔබේ අංකය හෝ විරුද්ධවාදියෙකුගේ අංකය ඇතුළත් විය හැකිය. කරුණාකර එය සමඟ ප්‍රවේශම් වන්න!_' + '\n_🛸 ඔබට අපගේ වට්සැප් කණ්ඩායමට උදව් සඳහා ලිවිය හැකිය ._' + '\n_*https://chat.whatsapp.com/ItIRSBUMN9t2lQzCpfAKWt*' + '\n_මෙම පණිවිඩය ඔබගේ අංකයට යා යුතුව තිබුණි (සුරැකි පණිවිඩ)._\n' + '\n*දෝෂය:* ```' + error + '```\n\n'
                             });
                             if (error.message.includes('URL')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🚀 දෝෂ විශ්ලේෂණය [ Ａｌｐｈａ-Ｘ ] 🚧*\n\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 ප්‍රධාන දෝෂය:* _Only Absolutely URLs Supported_' + '\n*⚖️ හේතුව:* _The usage of media tools (xmedia, sticker..) in the LOG number._' + '\n*🛡️ විසඳුම:* _You can use commands in any chat, except the LOG number._'
                                 });
                             } else if (error.message.includes('conversation')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🚀 දෝෂ විශ්ලේෂණය [ Ａｌｐｈａ-Ｘ ] 🚧*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 ප්‍රධාන දෝෂය:* _Deleting Plugin_' + '\n*⚖️ හේතුව:* _Entering incorrectly the name of the plugin wanted to be deleted._' + '\n*🛡️ විසඳුම:* _Please try without adding_ *__* _to the plugin you want to delete. If you still get an error, try to add like_ ```?(.*) / $``` _to the end of the name._ '
                                 });
                             } else if (error.message.includes('split')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🚀 දෝෂ විශ්ලේෂණය [ Ａｌｐｈａ-Ｘ ] 🚧*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 ප්‍රධාන දෝෂය:* _Split of Undefined_' + '\n*⚖️ හේතුව:* _Commands that can be used by group admins occasionally dont see the split function._ ' + '\n*🛡️ විසඳුම:* _Restarting will be enough._'
                                 });
                             } else if (error.message.includes('SSL')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🚀 දෝෂ විශ්ලේෂණය [ Ａｌｐｈａ-Ｘ ] 🚧*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 ප්‍රධාන දෝෂය:* _SQL Database Error_' + '\n*⚖️ හේතුව:* _Database corruption._ ' + '\n*🛡️ විසඳුම:* _There is no known solution. You can try reinstalling it._'
                                 });
                             } else if (error.message.includes('Ookla')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🚀 දෝෂ විශ්ලේෂණය [ Ａｌｐｈａ-Ｘ ] 🚧*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 ප්‍රධාන දෝෂය:* _Ookla Server Connection_' + '\n*⚖️ හේතුව:* _Speedtest data cannot be transmitted to the server._' + '\n*🛡️ විසඳුම:* _If you use it one more time the problem will be solved._'
                                 });
                             } else if (error.message.includes('params')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🚀 දෝෂ විශ්ලේෂණය [ Ａｌｐｈａ-Ｘ ] 🚧*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 ප්‍රධාන දෝෂය:* _Requested Audio Params_' + '\n*⚖️ හේතුව:* _Using the TTS command outside the Latin alphabet._' + '\n*🛡️ විසඳුම:* _The problem will be solved if you use the command in Latin letters frame._'
                                 });
                             } else if (error.message.includes('unlink')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🚀 දෝෂ විශ්ලේෂණය [ Ａｌｐｈａ-Ｘ ] 🚧*\n' + '\n========== ```Error Resolved``` ==========' + '\n\n*🛠 ප්‍රධාන දෝෂය:* _No Such File or Directory_' + '\n*⚖️ හේතුව:* _Incorrect coding of the plugin._' + '\n*🛡️ විසඳුම:* _Please check the your plugin codes._'
                                 });
                             } else if (error.message.includes('404')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🚀 දෝෂ විශ්ලේෂණය [ Ａｌｐｈａ-Ｘ ] 🚧*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 ප්‍රධාන දෝෂය:* _Error 404 HTTPS_' + '\n*⚖️ හේතුව:* _Failure to communicate with the server as a result of using the commands under the Heroku plugin._' + '\n*🛡️ විසඳුම:* _Wait a while and try again. If you still get the error, perform the transaction on the website.._'
                                 });
                             } else if (error.message.includes('reply.delete')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🚀 දෝෂ විශ්ලේෂණය [ Ａｌｐｈａ-Ｘ ] 🚧*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 ප්‍රධාන දෝෂය:* _Reply Delete Function_' + '\n*⚖️ හේතුව:* _Using IMG or Wiki commands._' + '\n*🛡️ විසඳුම:* _There is no solution for this error. It is not a fatal error._'
                                 });
                             } else if (error.message.includes('load.delete')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🚀 දෝෂ විශ්ලේෂණය [ Ａｌｐｈａ-Ｘ ] 🚧*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 ප්‍රධාන දෝෂය:* _Reply Delete Function_' + '\n*⚖️ හේතුව:* _Using IMG or Wiki commands._' + '\n*🛡️ විසඳුම:* _There is no solution for this error. It is not a fatal error._'
                                 });
                             } else if (error.message.includes('400')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🚀 දෝෂ විශ්ලේෂණය [ Ａｌｐｈａ-Ｘ ] 🚧*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 ප්‍රධාන දෝෂය:* _Bailyes Action Error_ ' + '\n*⚖️ හේතුව:* _The exact reason is unknown. More than one option may have triggered this error._' + '\n*🛡️ විසඳුම:* _If you use it again, it may improve. If the error continues, you can try to restart._'
                                 });
                             } else if (error.message.includes('decode')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🚀 දෝෂ විශ්ලේෂණය [ Ａｌｐｈａ-Ｘ ] 🚧*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 ප්‍රධාන දෝෂය:* _Cannot Decode Text or Media_' + '\n*⚖️ හේතුව:* _Incorrect use of the plug._' + '\n*🛡️ විසඳුම:* _Please use the commands as written in the plugin description._'
                                 });
                             } else if (error.message.includes('unescaped')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🚀 දෝෂ විශ්ලේෂණය [ Ａｌｐｈａ-Ｘ ] 🚧*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 ප්‍රධාන දෝෂය:* _Word Character Usage_' + '\n*⚖️ හේතුව:* _Using commands such as TTP, ATTP outside the Latin alphabet._' + '\n*🛡️ විසඳුම:* _The problem will be solved if you use the command in Latin alphabet.._'
                                 });
                             } else {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🙇🏻 සමාවන්න! මට මෙම දෝශය කියවිය නොහැක 🙇🏻*' + '\n_උපසදෙස් සඳහා ඔබට අපගේ සහය කන්ඩායමට එක්විය හැහ_'
                                 });
                             }
                         } else {
-                            await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                            await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                 text: '*🔭 ERROR REPORT [ Ａｌｐｈａ-Ｘ ] ⚖️*\n' + '\n*⚙ Ａｌｐｈａ-Ｘ an error has occurred!*' + '\n_♦ This error log may include your number or the number of an opponent. Please be careful with it!_' + '\n_🏷 Aslo you can join our support group:_ \n *https://chat.whatsapp.com/ItIRSBUMN9t2lQzCpfAKWt* ' + '\n_This message should have gone to your number (saved messages)._\n\n' + '*Error:* ```' + error + '```\n\n'
                             }, {
                                 detectLinks: false
                             });
                             if (error.message.includes('URL')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🔭 ᴇʀʀᴏʀ ᴀɴᴀʟʏsɪs [ Ａｌｐｈａ-Ｘ ] 📊*\n\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 Main Error:* _Only Absolutely URLs Supported_' + '\n*⚖️ Reason:* _The usage of media tools (xmedia, sticker..) in the LOG number._' + '\n*🛡️ Solution:* _You can use commands in any chat, except the LOG number._'
                                 });
                             } else if (error.message.includes('conversation')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🔭 ᴇʀʀᴏʀ ᴀɴᴀʟʏsɪs [ Ａｌｐｈａ-Ｘ ] 📊*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 Main Error:* _Deleting Plugin_' + '\n*⚖️ Reason:* _Entering incorrectly the name of the plugin wanted to be deleted._' + '\n*🛡️ Solution:* _Please try without adding_ *__* _to the plugin you want to delete. If you still get an error, try to add like_ ```?(.*) / $``` _to the end of the name._ '
                                 });
                             } else if (error.message.includes('split')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🔭 ᴇʀʀᴏʀ ᴀɴᴀʟʏsɪs [ Ａｌｐｈａ-Ｘ ] 📊*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 Main Error:* _Split of Undefined_' + '\n*⚖️ Reason:* _Commands that can be used by group admins occasionally dont see the split function._ ' + '\n*🛡️ Solution:* _Restarting will be enough._'
                                 });
                             } else if (error.message.includes('SSL')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🔭 ᴇʀʀᴏʀ ᴀɴᴀʟʏsɪs [ Ａｌｐｈａ-Ｘ ] 📊*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 Main Error:* _SQL Database Error_' + '\n*⚖️ Reason:* _Database corruption._ ' + '\n*🛡️ Solution:* _There is no known solution. You can try reinstalling it._'
                                 });
                             } else if (error.message.includes('Ookla')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🔭 ᴇʀʀᴏʀ ᴀɴᴀʟʏsɪs [ Ａｌｐｈａ-Ｘ ] 📊*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 Main Error:* _Ookla Server Connection_' + '\n*⚖️ Reason:* _Speedtest data cannot be transmitted to the server._' + '\n*🛡️ Solution:* _If you use it one more time the problem will be solved._'
                                 });
                             } else if (error.message.includes('params')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🔭 ᴇʀʀᴏʀ ᴀɴᴀʟʏsɪs [ Ａｌｐｈａ-Ｘ ] 📊*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 Main Error:* _Requested Audio Params_' + '\n*⚖️ Reason:* _Using the TTS command outside the Latin alphabet._' + '\n*🛡️ Solution:* _The problem will be solved if you use the command in Latin letters frame._'
                                 });
                             } else if (error.message.includes('unlink')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🔭 ᴇʀʀᴏʀ ᴀɴᴀʟʏsɪs [ Ａｌｐｈａ-Ｘ ] 📊*\n' + '\n========== ```Error Resolved``` ==========' + '\n\n*🛠 Main Error:* _No Such File or Directory_' + '\n*⚖️ Reason:* _Incorrect coding of the plugin._' + '\n*🛡️ Solution:* _Please check the your plugin codes._'
                                 });
                             } else if (error.message.includes('404')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🔭 ᴇʀʀᴏʀ ᴀɴᴀʟʏsɪs [ Ａｌｐｈａ-Ｘ ] 📊*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 Main Error:* _Error 404 HTTPS_' + '\n*⚖️ Reason:* _Failure to communicate with the server as a result of using the commands under the Heroku plugin._' + '\n*🛡️ Solution:* _Wait a while and try again. If you still get the error, perform the transaction on the website.._'
                                 });
                             } else if (error.message.includes('reply.delete')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🔭 ᴇʀʀᴏʀ ᴀɴᴀʟʏsɪs [ Ａｌｐｈａ-Ｘ ] 📊*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 Main Error:* _Reply Delete Function_' + '\n*⚖️ Reason:* _Using IMG or Wiki commands._' + '\n*🛡️ Solution:* _There is no solution for this error. It is not a fatal error._'
                                 });
                             } else if (error.message.includes('load.delete')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🔭 ᴇʀʀᴏʀ ᴀɴᴀʟʏsɪs [ Ａｌｐｈａ-Ｘ ] 📊*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 Main Error:* _Reply Delete Function_' + '\n*⚖️ Reason:* _Using IMG or Wiki commands._' + '\n*🛡️ Solution:* _There is no solution for this error. It is not a fatal error._'
                                 });
                             } else if (error.message.includes('400')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🔭 ᴇʀʀᴏʀ ᴀɴᴀʟʏsɪs [ Ａｌｐｈａ-Ｘ ] 📊*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 Main Error:* _Bailyes Action Error_ ' + '\n*⚖️ Reason:* _The exact reason is unknown. More than one option may have triggered this error._' + '\n*🛡️ Solution:* _If you use it again, it may improve. If the error continues, you can try to restart._'
                                 });
                             } else if (error.message.includes('decode')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🔭 ᴇʀʀᴏʀ ᴀɴᴀʟʏsɪs [ Ａｌｐｈａ-Ｘ ] 📊*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 Main Error:* _Cannot Decode Text or Media_' +
 
                                     '\n*⚖️ Reason:* _Incorrect use of the plug._' + '\n*🛡️ Solution:* _Please use the commands as written in the plugin description._'
                                 });
                             } else if (error.message.includes('unescaped')) {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🔭 ᴇʀʀᴏʀ ᴀɴᴀʟʏsɪs [ Ａｌｐｈａ-Ｘ ] 📊*\n' + '\n========== _Error Resolved!_ ==========' + '\n\n*🛠 Main Error:* _Word Character Usage_' + '\n*⚖️ Reason:* _Using commands such as TTP, ATTP outside the Latin alphabet._' + '\n*🛡️ Solution:* _The problem will be solved if you use the command in Latin alphabet.._'
                                 });
                             } else {
-                                return await AlphaxSock.sendMessage(/* AlphaxSock.user.id */ '94772978164@s.whatsapp.net', {
+                                return await AlphaxSock.sendMessage(AlphaxSock.user.id, {
                                     text: '*🙇🏻 Sorry, I Couldnt Read This Error! 🙇🏻*' + '\n_You can write to our support group for more help._'
                                 });
                             }

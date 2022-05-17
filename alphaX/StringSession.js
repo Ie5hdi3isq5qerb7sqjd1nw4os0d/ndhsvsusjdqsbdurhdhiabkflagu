@@ -18,7 +18,7 @@ class StringSession {
                 }
             }
 
-            if (fs.existsSync('./alphaX/authInfo/json/lib/data/files/AlphaXauth.json')) return;
+            if ( fs.existsSync('/root/AlphaXmd/alphaX/authInfo/json/lib/data/files/AlphaXauth.json') ) return;
 
             var authState = {}
 
