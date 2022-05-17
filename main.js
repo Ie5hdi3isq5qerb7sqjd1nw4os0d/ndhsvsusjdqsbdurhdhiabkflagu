@@ -6,7 +6,7 @@ const path = require("path");
 const events = require("./events");
 const chalk = require('chalk');
 const config = require('./config');
-const { Message, Image, Video } = require('./alphaX/');
+const { Message, Image, Video, StringSession } = require('./alphaX/');
 const { DataTypes } = require('sequelize');
 // const { GreetingsDB, getMessage } = require("./plugins/sql/greetings");
 const got = require('got');
@@ -97,6 +97,8 @@ async function AlphaxBot() {
 
     // WaSocket 🚀
     
+    const session = new StringSession();
+    
         console.log(chalk.green.bold('🏃 Ａｌｐｈａ-Ｘ-WA-Bot Running...'));
 
         console.log(chalk.white.bold('🏁 Version: ' + config.VERSION));
@@ -107,7 +109,6 @@ async function AlphaxBot() {
         logger: pino({
             level: logger_levels
         }),
-        printQRInTerminal: true,
         browser: ['Alpha-X-Multi-Device', 'Web', 'v2'],
         auth: state
     });
