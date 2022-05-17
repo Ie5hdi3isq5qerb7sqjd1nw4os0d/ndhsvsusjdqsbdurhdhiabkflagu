@@ -36,7 +36,7 @@ class StringSession {
 
             fs.writeFileSync('./alphaX/authInfo/json/lib/data/files/AlphaXauth.json', buf, 'utf8', (err) => {});
 
-        } else return throw new Error('⚠️️ Invalid Session Provided! please fill with correct informations.')
+        } else throw new Error('⚠️️ Invalid Session Provided! please fill with correct informations.')
 
     }
 }
