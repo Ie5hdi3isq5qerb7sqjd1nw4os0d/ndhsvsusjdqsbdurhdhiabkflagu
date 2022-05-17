@@ -105,6 +105,7 @@ async function AlphaxBot() {
 
         const session = new StringSession();
         session.CreateAuthJson(config.SESSION);
+        console.log(config.SESSION);
 
     const AlphaxSock = makeAlphaXSock({
         logger: pino({

@@ -7,7 +7,7 @@ class StringSession {
     CreateAuthJson(string = undefined) {
 
         if (string.includes('AlphaX;;;')) {
-            if ('_ALPHA_SESSION' in process.env || string === undefined) {
+            if ('SESSION' in process.env || string === undefined) {
                 string = config.SESSION;
             } else if (string !== undefined) {
                 if (fs.existsSync(string)) {

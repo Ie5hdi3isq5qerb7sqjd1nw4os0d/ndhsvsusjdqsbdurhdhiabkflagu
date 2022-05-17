@@ -5,8 +5,8 @@ services:
     environment:
     # Dont use ('') or ("") >
 
-        _ALPHA_SESSION: $_ALPHA_SESSION
-        LOG_NUMBER: LOG_NUMBER
+        SESSION: $SESSION
+        LOG_NUMBER: $LOG_NUMBER
         DEBUG: $DEBUG
         USER_NAME: $USER_NAME
         HANDLERS: $HANDLERS

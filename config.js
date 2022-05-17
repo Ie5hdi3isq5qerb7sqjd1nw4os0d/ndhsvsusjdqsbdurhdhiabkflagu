@@ -16,7 +16,7 @@ DEBUG = process.env.DEBUG === undefined ? false : convertToBool(process.env.DEBU
 if (fs.existsSync('config.env')) {
 
     db.push('/LOG', process.env.LOG_NUMBER)
-    db.push('/SESSION', process.env._ALPHA_SESSION)
+    db.push('/SESSION', process.env.SESSION)
     db.push('/WORKTYPE', process.env.WORK_TYPE)
     db.push('/LANG', process.env.LANGUAGE.toUpperCase())
     db.push('/HANDLERS', process.env.HANDLERS)
