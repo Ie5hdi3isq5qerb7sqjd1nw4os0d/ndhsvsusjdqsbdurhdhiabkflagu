@@ -141,7 +141,7 @@ async function AlphaxBot() {
             console.log(
             chalk.blueBright.italic('🍂️ Installing Plugins...'));
 
-            // try {
+            try {
 
                 fs.readdirSync('./plugins')
                     .forEach(plugin => {
@@ -151,11 +151,11 @@ async function AlphaxBot() {
                     }
                 });
 
-            /* } catch {
+            } catch {
 
                 console.log('❌ Some Plugins Have Errors contact owners for help')
 
-            }; */
+            };
 
             console.log(
             chalk.green.bold('✅ Plugins Installed!'));
