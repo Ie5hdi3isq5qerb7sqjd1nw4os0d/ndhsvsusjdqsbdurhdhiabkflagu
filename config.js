@@ -17,7 +17,6 @@ module.exports = {
     VERSION: 'V.2 - Multi-device Beta',
     BRANCH: 'multi-device',
     GROUP: 'https://chat.whatsapp.com/ItIRSBUMN9t2lQzCpfAKWt',
-    LOG: process.env.LOG_NUMBER || db.getData('/LOG'),
     SESSION: process.env.SESSION || db.getData('/SESSION'),
     LANG: process.env.LANGUAGE.toUpperCase() || db.getData('/LANG'),
     WORKTYPE: process.env.WORK_TYPE || db.getData('/WORKTYPE'),
