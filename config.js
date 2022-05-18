@@ -13,29 +13,20 @@ function convertToBool(text, fault = 'true') {
 
 DEBUG = process.env.DEBUG === undefined ? false : convertToBool(process.env.DEBUG);
 
-if (fs.existsSync('config.env')) {
-
-    db.push('/LOG', process.env.LOG_NUMBER)
-    db.push('/SESSION', process.env.SESSION)
-    db.push('/WORKTYPE', process.env.WORK_TYPE)
-    db.push('/LANG', process.env.LANGUAGE.toUpperCase())
-    db.push('/HANDLERS', process.env.HANDLERS)
-    db.push('/U_NAME', process.env.USER_NAME)
-    db.push('/SUDO', process.env.SUDO)
-    db.push('/DEBUG', convertToBool(process.env.DEBUG))
-}
-
 module.exports = {
     VERSION: 'V.2 - Multi-device Beta',
     BRANCH: 'multi-device',
     GROUP: 'https://chat.whatsapp.com/ItIRSBUMN9t2lQzCpfAKWt',
-    LOG: db.getData('/LOG'),
+    LOG: process.env.LOG_NUMBER || db.getData('/LOG'),
+    SESSION: process.env.SESSION || db.getData('/SESSION'),
+    LANG: process.env.LANGUAGE.toUpperCase() || db.getData('/LANG'),
+    WORKTYPE: process.env.WORK_TYPE || db.getData('/WORKTYPE'),
+    HANDLERS: process.env.HANDLERS || db.getData('/HANDLERS'),
+    DEBUG: convertToBool(process.env.DEBUG) || db.getData('/DEBUG'),
     PROXY: db.getData('/PROXY'),
-    SESSION: db.getData('/SESSION'),
     ANTILINK: db.getData('/ANTILINK'),
     AUTOBIO: db.getData('/AUTOBIO'),
     GANSTYLE: db.getData('/GANSTYLE'),
-    LANG: db.getData('/LANG'),
     ALIVEMSG: db.getData('/ALIVEMSG'),
     KICKMEMSG: db.getData('/KICKMEMSG'),
     BLOCKCHAT: db.getData('/BLOCKCHAT'),
@@ -46,12 +37,10 @@ module.exports = {
     BLOCKMSG: db.getData('/BLOCKMSG'),
     UNBLOCKMSG: db.getData('/UNBLOCKMSG'),
     UNMUTEMSG: db.getData('/UNMUTEMSG'),
-    WORKTYPE: db.getData('/WORKTYPE'),
     PROMOTEMSG: db.getData('/PROMOTEMSG'),
     DEMOTEMSG: db.getData('/DEMOTEMSG'),
     BANMSG: db.getData('/BANMSG'),
     AFKMSG: db.getData('/AFKMSG'),
-    HANDLERS: db.getData('/HANDLERS'),
     SEND_READ: db.getData('/SEND_READ'),
     CAPTION: db.getData('/CAPTION'),
     BOTNAME: db.getData('/BOTNAME'),
@@ -86,7 +75,6 @@ module.exports = {
     RBG_API_KEY: db.getData('/RBG_API_KEY'),
     NO_ONLINE: db.getData('/NO_ONLINE'),
     SUDO: db.getData('/SUDO'),
-    DEBUG: db.getData('/DEBUG'),
     COFFEEHOUSE_API_KEY: db.getData('/COFFEEHOUSE_API_KEY'),
     WITAI_API: "TEYMELA6DMC4XB5YM3SPTTQWUUIBKURG",
     BOTHELP: "🙂",
