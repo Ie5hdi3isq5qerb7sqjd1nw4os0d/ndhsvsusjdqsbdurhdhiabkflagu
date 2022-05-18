@@ -141,7 +141,7 @@ async function AlphaxBot() {
             console.log(
             chalk.blueBright.italic('🍂️ Installing Plugins...'));
 
-            try {
+            // try {
 
                 fs.readdirSync('./plugins')
                     .forEach(plugin => {
@@ -151,11 +151,11 @@ async function AlphaxBot() {
                     }
                 });
 
-            } catch {
+            /* } catch {
 
                 console.log('❌ Some Plugins Have Errors contact owners for help')
 
-            };
+            }; */
 
             console.log(
             chalk.green.bold('✅ Plugins Installed!'));
@@ -164,8 +164,8 @@ async function AlphaxBot() {
 
 
             await new Promise(r => setTimeout(r, 100));
-            let wtype = config.WORKTYPE == 'public' ? 'Public' : 'Private'
-            console.log(chalk.bgGreen('🔥 Ａｌｐｈａ-Ｘ-WA-Bot ⚚ ' + wtype));
+            let wtype = config.WORKTYPE == 'private' ? 'Private' : 'Public'
+            console.log(chalk.bgGreen('🔥 Ａｌｐｈａ-Ｘ-WA-Bot <> ' + wtype));
 
             if (config.AI_LILY == 'true') {
                 var lily_msg = await AlphaXnpchatUpdate.lily_if(config.LANG)
