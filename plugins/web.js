@@ -1,7 +1,7 @@
-const module = require('../events');
+const Events = require('../events');
 const Config = require('../config');
 
-module.alphaXCMD({pattern: 'ping$', fromMe: false, deleteCommand: false, desc: "ping pong 📨"}, (async (message, match) => {
+Events.alphaXCMD({pattern: 'ping$', fromMe: false, deleteCommand: false, desc: "ping pong 📨"}, (async (message, match) => {
 
   var start = new Date().getTime();
   await message.sendMessage(message.jid, { text: Config.C_EMOJI + ' *ʀᴜɴɴɪɴɢ...*'} );
